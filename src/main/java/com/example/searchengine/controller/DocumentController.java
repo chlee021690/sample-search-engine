@@ -18,6 +18,10 @@ public class DocumentController {
 
     @PostMapping
     public ResponseEntity<DocumentEntity> createDocument(@RequestBody DocumentEntity document) {
+        if (document == null || document.getTitle() == null || document.getTitle().trim().isEmpty() ||
+            document.getContent() == null || document.getContent().trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
         DocumentEntity created = documentService.createDocument(document);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
@@ -39,6 +43,10 @@ public class DocumentController {
     public ResponseEntity<DocumentEntity> updateDocument(
             @PathVariable String id,
             @RequestBody DocumentEntity document) {
+        if (document == null || document.getTitle() == null || document.getTitle().trim().isEmpty() ||
+            document.getContent() == null || document.getContent().trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
         try {
             DocumentEntity updated = documentService.updateDocument(id, document);
             return ResponseEntity.ok(updated);
@@ -55,6 +63,9 @@ public class DocumentController {
 
     @GetMapping("/search")
     public ResponseEntity<List<DocumentEntity>> searchDocuments(@RequestParam String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
         List<DocumentEntity> results = documentService.searchDocuments(query);
         return ResponseEntity.ok(results);
     }

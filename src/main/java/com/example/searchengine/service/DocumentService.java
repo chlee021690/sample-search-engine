@@ -33,8 +33,13 @@ public class DocumentService {
         DocumentEntity savedDocument = documentRepository.save(document);
         
         // Index in Elasticsearch for search
-        SearchableDocument searchableDocument = convertToSearchable(savedDocument);
-        searchableDocumentRepository.save(searchableDocument);
+        try {
+            SearchableDocument searchableDocument = convertToSearchable(savedDocument);
+            searchableDocumentRepository.save(searchableDocument);
+        } catch (Exception e) {
+            log.error("Failed to index document in ElasticSearch: {}", e.getMessage());
+            // Document is saved in MongoDB but not indexed. Consider implementing retry logic.
+        }
         
         log.info("Document created with id: {}", savedDocument.getId());
         return savedDocument;
@@ -52,7 +57,7 @@ public class DocumentService {
         return documentRepository.findAll();
     }
 
-    @CacheEvict(value = "documents", allEntries = true)
+    @CacheEvict(value = {"documents", "search"}, allEntries = true)
     public DocumentEntity updateDocument(String id, DocumentEntity document) {
         log.info("Updating document with id: {}", id);
         return documentRepository.findById(id)
@@ -65,19 +70,29 @@ public class DocumentService {
                     DocumentEntity updated = documentRepository.save(existingDoc);
                     
                     // Update in Elasticsearch
-                    SearchableDocument searchableDocument = convertToSearchable(updated);
-                    searchableDocumentRepository.save(searchableDocument);
+                    try {
+                        SearchableDocument searchableDocument = convertToSearchable(updated);
+                        searchableDocumentRepository.save(searchableDocument);
+                    } catch (Exception e) {
+                        log.error("Failed to update document in ElasticSearch: {}", e.getMessage());
+                        // Document is updated in MongoDB but not in ElasticSearch.
+                    }
                     
                     return updated;
                 })
                 .orElseThrow(() -> new RuntimeException("Document not found with id: " + id));
     }
 
-    @CacheEvict(value = "documents", allEntries = true)
+    @CacheEvict(value = {"documents", "search"}, allEntries = true)
     public void deleteDocument(String id) {
         log.info("Deleting document with id: {}", id);
         documentRepository.deleteById(id);
-        searchableDocumentRepository.deleteById(id);
+        try {
+            searchableDocumentRepository.deleteById(id);
+        } catch (Exception e) {
+            log.error("Failed to delete document from ElasticSearch: {}", e.getMessage());
+            // Document is deleted from MongoDB but may still exist in ElasticSearch.
+        }
     }
 
     @Cacheable(value = "search", key = "#query")

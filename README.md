@@ -143,13 +143,13 @@ heroku create your-app-name
 ### 2. Add required add-ons
 
 ```bash
-# MongoDB
-heroku addons:create mongolab:sandbox
+# MongoDB Atlas (recommended)
+heroku addons:create mongodbatlas:sandbox
 
 # ElasticSearch (Bonsai or SearchBox)
-heroku addons:create bonsai:sandbox-10
+heroku addons:create bonsai:sandbox
 # OR
-heroku addons:create searchbox:starter
+heroku addons:create searchbox:minimal
 
 # Redis
 heroku addons:create heroku-redis:hobby-dev
