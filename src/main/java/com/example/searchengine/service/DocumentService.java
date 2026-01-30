@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -90,7 +91,8 @@ public class DocumentService {
                 .map(SearchableDocument::getId)
                 .collect(Collectors.toList());
         
-        return documentRepository.findAllById(ids);
+        return StreamSupport.stream(documentRepository.findAllById(ids).spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     public List<DocumentEntity> getDocumentsByAuthor(String author) {
