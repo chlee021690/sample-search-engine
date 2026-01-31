@@ -5,3 +5,6 @@ server:
 spring:
     application:
         name: searchengine
+    elasticsearch:
+        uris: https://eq8apthhf8:eq8apthhf8@cherry-137171782.us-east-1.bonsaisearch.net:443
+        
