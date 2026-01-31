@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-# sample-spring-boot-with-elasticsearch
-=======
->>>>>>> a4e0f72 (initial commit)
 # Getting Started
 
 ### Reference Documentation
