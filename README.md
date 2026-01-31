@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# sample-spring-boot-with-elasticsearch
+=======
+>>>>>>> a4e0f72 (initial commit)
 # Getting Started
 
 ### Reference Documentation
@@ -42,3 +48,7 @@ In this file, the following services have been defined:
 
 Please review the tags of the used images and set them to the same as you're running in production.
 
+<<<<<<< HEAD
+=======
+>>>>>>> b3c2746 (initial commit)
+>>>>>>> a4e0f72 (initial commit)
