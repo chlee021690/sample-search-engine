@@ -1,48 +1,51 @@
-# Getting Started
+# Search Engine (Spring Boot + Elasticsearch)
 
-### Reference Documentation
-For further reference, please consider the following sections:
+Sample text search engine built with Spring Boot and Elasticsearch. The app seeds documents at startup and uses Spring Data Elasticsearch repositories to manage the search index.
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/4.0.2/gradle-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/4.0.2/gradle-plugin/packaging-oci-image.html)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/4.0.2/reference/using/devtools.html)
-* [Spring Configuration Processor](https://docs.spring.io/spring-boot/4.0.2/specification/configuration-metadata/annotation-processor.html)
-* [Docker Compose Support](https://docs.spring.io/spring-boot/4.0.2/reference/features/dev-services.html#features.dev-services.docker-compose)
-* [Spring Data Redis (Access+Driver)](https://docs.spring.io/spring-boot/4.0.2/reference/data/nosql.html#data.nosql.redis)
-* [Spring Data Elasticsearch](https://docs.spring.io/spring-boot/4.0.2/reference/data/nosql.html#data.nosql.elasticsearch)
-* [Elasticsearch](https://docs.spring.io/spring-boot/4.0.2/reference/data/nosql.html#data.nosql.elasticsearch)
+## Features
+- Spring Boot 4 + Spring Data Elasticsearch
+- Seed documents loaded on application startup
+- Local development with Elasticsearch + Redis (Compose)
+- GraphQL client code generation (DGS Codegen)
 
-### Guides
-The following guides illustrate how to use some features concretely:
+## Requirements
+- Java 21
+- Gradle 8+
+- Elasticsearch (local or Elastic Cloud/Found)
 
-* [Messaging with Redis](https://spring.io/guides/gs/messaging-redis/)
+## Configuration
+The following environment variables are optional and fall back to local defaults:
 
-### Additional Links
-These additional references should also help you:
+- FOUNDELASTICSEARCH_URL (default: http://localhost:9200)
+- ELASTIC_USERNAME (default: empty)
+- ELASTIC_PASSWORD (default: empty)
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+These map to the Spring properties in application.yaml:
+- spring.elasticsearch.uris
+- spring.elasticsearch.username
+- spring.elasticsearch.password
 
-## GraphQL code generation with DGS
+## Running
+Local run (with Elasticsearch/Redis running locally):
+- ./gradlew bootRun
 
-This project has been configured to use the Netflix DGS Codegen plugin.
-This plugin can be used to generate client files for accessing remote GraphQL services.
-The default setup assumes that the GraphQL schema file for the remote service is added to the `src/main/resources/graphql-client/` location.
+Elastic Cloud/Found run:
+1) Set environment variables
+2) ./gradlew bootRun
 
-You can learn more about the [plugin configuration options](https://netflix.github.io/dgs/generating-code-from-schema/#configuring-code-generation) and
-[how to use the generated types](https://netflix.github.io/dgs/generating-code-from-schema/) to adapt the default setup.
+## Seed Data
+On startup, the app reads src/main/resources/seed/doc/*.txt and indexes the documents.
 
+## Index Name
+Elasticsearch index names must be lowercase. The current index name is document.
 
-### Docker Compose support
-This project contains a Docker Compose file named `compose.yaml`.
-In this file, the following services have been defined:
+## GraphQL Codegen
+Place GraphQL schemas in src/main/resources/graphql-client/ to use DGS Codegen.
 
-* elasticsearch: [`docker.elastic.co/elasticsearch/elasticsearch:7.17.10`](https://www.docker.elastic.co/r/elasticsearch)
-* redis: [`redis:latest`](https://hub.docker.com/_/redis)
+## Docker Compose
+compose.yaml defines Elasticsearch and Redis for local development.
 
-Please review the tags of the used images and set them to the same as you're running in production.
-
-<<<<<<< HEAD
-=======
->>>>>>> b3c2746 (initial commit)
->>>>>>> a4e0f72 (initial commit)
+## References
+- Spring Data Elasticsearch: https://docs.spring.io/spring-boot/4.0.2/reference/data/nosql.html#data.nosql.elasticsearch
+- Elasticsearch: https://docs.spring.io/spring-boot/4.0.2/reference/data/nosql.html#data.nosql.elasticsearch
+- Gradle: https://docs.gradle.org
