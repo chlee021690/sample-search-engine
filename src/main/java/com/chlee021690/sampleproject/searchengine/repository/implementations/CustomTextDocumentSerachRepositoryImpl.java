@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.stereotype.Repository;
 
-import com.chlee021690.sampleproject.searchengine.dto.GetTextDocumentBySearchDto;
+import com.chlee021690.sampleproject.searchengine.dto.SearchTextDocumentsDto;
 import com.chlee021690.sampleproject.searchengine.entity.TextDocument;
 import com.chlee021690.sampleproject.searchengine.repository.interfaces.custom.CustomTextDocumentSearchRepository;
 
@@ -23,14 +23,14 @@ public class CustomTextDocumentSerachRepositoryImpl implements CustomTextDocumen
     private final ElasticsearchOperations elasticSearchOperations;
 
     @Override
-    public List<TextDocument> searchDocuments(GetTextDocumentBySearchDto dto) {
+    public List<TextDocument> searchDocuments(SearchTextDocumentsDto dto) {
 
         CriteriaQuery query = createSearchQuery(dto);
         SearchHits<TextDocument> searchHits = elasticSearchOperations.search(query, TextDocument.class);
         return searchHits.stream().map(SearchHit::getContent).toList();
     }
 
-    private CriteriaQuery createSearchQuery(GetTextDocumentBySearchDto dto){
+    private CriteriaQuery createSearchQuery(SearchTextDocumentsDto dto){
 
         return  new CriteriaQuery(
             new Criteria("title").contains(dto.getTitle())
