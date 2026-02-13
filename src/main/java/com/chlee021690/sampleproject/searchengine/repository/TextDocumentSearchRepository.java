@@ -1,9 +1,11 @@
 package com.chlee021690.sampleproject.searchengine.repository;
 
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.stereotype.Repository;
 
 import com.chlee021690.sampleproject.searchengine.entity.TextDocument;
 
-public interface TextDocumentRepository extends ElasticsearchRepository<TextDocument, String> {
+@Repository
+public interface TextDocumentSearchRepository extends ElasticsearchRepository<TextDocument, String> {
 
 }

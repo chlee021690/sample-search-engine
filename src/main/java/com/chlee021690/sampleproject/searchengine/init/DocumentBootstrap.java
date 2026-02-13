@@ -17,7 +17,7 @@ import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import com.chlee021690.sampleproject.searchengine.entity.TextDocument;
-import com.chlee021690.sampleproject.searchengine.repository.TextDocumentRepository;
+import com.chlee021690.sampleproject.searchengine.repository.TextDocumentSearchRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class DocumentBootstrap implements ApplicationRunner {
 
     private final ElasticsearchOperations operations;
-    private final TextDocumentRepository repository;
+    private final TextDocumentSearchRepository repository;
 
     // public DocumentBootstrap(ElasticsearchOperations operations, DocumentRepository repository) {
     //     this.operations = operations;
