@@ -11,8 +11,9 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetTextDocumentBySearchDto {
+public class SearchTextDocumentsDto {
     private int numberOfResults;
     private String title;
     private String content;
+    private int contentSizeLimit;
 }
