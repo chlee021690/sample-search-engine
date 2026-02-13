@@ -17,7 +17,7 @@ import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import com.chlee021690.sampleproject.searchengine.entity.TextDocument;
-import com.chlee021690.sampleproject.searchengine.repository.TextDocumentSearchRepository;
+import com.chlee021690.sampleproject.searchengine.repository.interfaces.main.TextDocumentSearchRepository;
 
 import lombok.RequiredArgsConstructor;
 
